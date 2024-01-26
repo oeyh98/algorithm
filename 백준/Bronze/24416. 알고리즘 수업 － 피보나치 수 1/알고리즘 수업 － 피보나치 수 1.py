@@ -1,16 +1,25 @@
-n = int(input())
-dp_cnt = 0
-def dp(n):
-    dp_cnt = 0
+import sys
 
-    f = [0 for _ in range(n)]
-    f[0] = 1
-    f[1] = 1
-    for i in range(2, n):
-        dp_cnt += 1
-        f[i] = f[i-1] + f[i-2]
-    return f[n-1], dp_cnt
+n = int(sys.stdin.readline())
+cnt1, cnt2 = 1, 0
+def fib(n):
+    global cnt1
+    if n <= 2:
+        return 1
+
+    cnt1 += 1
+    return fib(n - 1) + fib(n - 2)
+
+def fibonacci(n):
+    global cnt2
+    dp = [0] * (n+1)
+    dp[1], dp[2] = 1, 1
+    for i in range(3, n+1):
+        cnt2 += 1
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]
 
 
-f, d = dp(n)
-print(f, d)
+fib(n)
+fibonacci(n)
+print(cnt1, cnt2)
