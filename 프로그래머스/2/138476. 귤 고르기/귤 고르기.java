@@ -10,12 +10,8 @@ class Solution {
         
         List<Integer> keySet  = new ArrayList<>(hm.keySet());
         
-        keySet.sort(new Comparator<Integer>(){
-            @Override
-            public int compare(Integer o1, Integer o2){
-                return hm.get(o2).compareTo(hm.get(o1));
-            }
-        });
+        keySet.sort((o1, o2) -> hm.get(o2).compareTo(hm.get(o1)));
+        
         
         for(int i = 0; i < keySet.size(); i++){
             k -= hm.get(keySet.get(i));
