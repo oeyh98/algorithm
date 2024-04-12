@@ -1,27 +1,19 @@
 class Solution {
-    
-    public static int cal(int n) {
-        int cnt = 0;
-        
-        for(int i = 1; i*i < n+1; i++){
-            if(i * i == n) cnt++;
-            else if(n % i == 0 ) cnt += 2;
-        }
-        
-        return cnt;
-    }
-
     public int solution(int number, int limit, int power) {
         int answer = 0;
         
-        for(int i = 1; i <= number; i++){
-            int calNum = cal(i);
+        for(int i = 1; i < number+1; i++){
+            int cnt = 0;
             
-            if(calNum > limit){
-                calNum = power;
+            for(int j = 1; j*j <= i; j++){
+                if(j*j == i) cnt++;
+                else if(i%j == 0) cnt += 2;
             }
-            answer += calNum;
+            
+            if(cnt > limit) cnt = power;
+            answer += cnt;
         }
+        
         return answer;
     }
 }
