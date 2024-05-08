@@ -1,10 +1,9 @@
 switch_len = int(input())
 switch = (list(map(int, input().split())))
-student_len = int(input())
-student = [list(map(int, input().split())) for _ in range(student_len)]
+student = int(input())
 
-for s in student:
-    gender, number = s[0], s[1]
+for s in range(student):
+    gender, number = map(int, input().split())
 
     if gender == 1:
         i = 1
