@@ -8,10 +8,6 @@ def bfs(maps):
     q = deque()
     q.append((0, 0, 1))
     
-    
-    visited = [[False] * m for _ in range(n)]
-    visited[0][0] = True
-    
     while q:
         x, y, dist = q.popleft()
         
@@ -23,10 +19,10 @@ def bfs(maps):
             ny = y + dy[i]
             
             if 0 <= nx < n and 0 <= ny < m and maps[nx][ny] == 1:
-                if not visited[nx][ny]:
-                    maps[nx][ny] += maps[x][y]
-                    q.append((nx, ny, dist + 1))
-                    visited[nx][ny] = True
+                nd = dist + 1
+                maps[nx][ny] = nd
+                q.append((nx, ny, nd))
+                
     return -1
                 
     
