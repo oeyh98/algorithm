@@ -1,20 +1,15 @@
-import heapq
 def solution(n, k, enemy):
-    answer = 0
-    heap = []
-    total = 0
-    for e in enemy :
-        heapq.heappush(heap, -e)
-        total += e
-        if total > n :
-            if k == 0 :
-                break
-            k -= 1
-            total += heapq.heappop(heap)
+    answer = []
+    def dfs(cnt, n, k, enemy):
+        if k == 0 and n < enemy[0]:
+            answer.append(cnt)
             
-        else:
-            n -= e
-            total -= e
+        if len(enemy) > 1:
+            if k > 0:
+                dfs(cnt+1, n, k-1, enemy[1:])
+            if n >= enemy[0]:
+                dfs(cnt+1, n - enemy[0], k, enemy[1:])
         
-        answer += 1
+    dfs(0, n, k, enemy)
+
     return answer
