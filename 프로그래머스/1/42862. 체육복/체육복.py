@@ -1,13 +1,27 @@
 def solution(n, lost, reserve):
-    lost_set = set(lost) - set(reserve)
-    reserve_set = set(reserve) - set(lost)
+    dic = {i:1 for i in range(n+1)}
+    answer = 0
     
-    for item in reserve_set:
-        if item - 1 in lost_set:
-            lost_set.remove(item - 1)
-            
-        elif item + 1 in lost_set:
-            lost_set.remove(item + 1)
-            
+    for l in lost:
+        dic[l] -= 1
         
-    return n - len(lost_set)
+    for r in reserve:
+        dic[r] += 1
+        
+    for idx in dic:
+        if dic[idx] == 0:
+            if dic[idx-1] > 1:
+                dic[idx-1] -= 1
+                answer += 1
+                
+            elif idx + 1 < n + 1 and dic[idx + 1] > 1:
+                dic[idx + 1] -= 1
+                answer += 1
+                
+        else:
+            answer += 1
+            
+    return answer - 1
+                
+                
+    
