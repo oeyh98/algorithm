@@ -6,7 +6,6 @@ def solution(board, moves):
     
     def check():
         if len(stack) > 1 and stack[-1] == stack[-2]:
-            print(stack)
             stack.pop()
             stack.pop()
             
