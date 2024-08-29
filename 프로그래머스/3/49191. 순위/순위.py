@@ -1,32 +1,21 @@
+from collections import defaultdict
+
 def solution(n, results):
     answer = 0
-    graph = [[0 for _ in range(n+1)] for _ in range(n+1)]
+    win = defaultdict(set)
+    lose = defaultdict(set)
     
-    for win, defeat in results:
-        graph[win][defeat] = 1
-        graph[defeat][win] = -1
-
-    for node in range(1, n+1):
-        for i in range(1, n+1):
-            if graph[node][i] == 1:
-                for j in range(1, n+1):
-                    if graph[i][j] == 1:
-                        graph[node][j] = 1
-                        graph[j][node] = -1
-            elif graph[node][i] == -1:
-                for j in range(1, n+1):
-                    if graph[i][j] == -1:
-                        graph[node][j] = -1
-                        graph[j][node] = 1
-
+    for a, b in results:
+        win[a].add(b)
+        lose[b].add(a)
+        
     for i in range(1, n+1):
-        temp = 0
-        for j in range(1, n+1):
-            if (i != j) and (graph[i][j] == 1 or graph[i][j] == -1):
-                temp += 1
-                
-        if temp == n - 1:
+        for defeat in win[i]:
+            lose[defeat].update(lose[i])
+        for victory in lose[i]:
+            win[victory].update(win[i])
+        
+    for i in range(1, n+1):
+        if len(win[i]) + len(lose[i]) == n-1:
             answer += 1
-            
-    print(graph)
     return answer
