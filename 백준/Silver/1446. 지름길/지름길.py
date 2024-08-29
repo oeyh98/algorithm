@@ -4,13 +4,16 @@ from heapq import heappush, heappop
 input = sys.stdin.readline
 INF = int(1e9)
 n, d = map(int, input().split())
-graph = [[(i+1, 1)] for i in range(d+1)]
+graph = [[] for i in range(d+1)]
 distance = [INF] * (d + 1)
 
+for i in range(d):
+    graph[i].append((i+1, 1))
+
 for _ in range(n):
-    start, end, dist = map(int, input().split())
-    if start < d:
-        graph[start].append((end, dist))
+    start, dest, dist = map(int, input().split())
+    if dest <= d:
+        graph[start].append((dest, dist))
 
 hq = []
 distance[0] = 0
@@ -23,7 +26,7 @@ while hq:
         continue
 
     for dest, dist in graph[start]:
-        if dest <= d and drive + dist < distance[dest]:
+        if drive + dist < distance[dest]:
             distance[dest] = drive + dist
             heappush(hq, (dest, drive + dist))
 
