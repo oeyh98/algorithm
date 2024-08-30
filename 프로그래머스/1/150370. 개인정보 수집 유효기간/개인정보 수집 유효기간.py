@@ -1,30 +1,24 @@
+def convert(time):
+    y, m, d = map(int, time.split("."))
+    return y * 12 * 28 + m * 28 + d
+
 def solution(today, terms, privacies):
     answer = []
-    dic = {}
-    y, m, d = map(int, today.split('.'))
+    term_dic = {}
     
-    for t in terms:
-        term, period = t.split()
-        dic[term] = int(period)
+    cur = convert(today)
     
+    for term in terms:
+        a, b = term.split(' ')
+        term_dic[a] = int(b) * 28
     
     for i in range(len(privacies)):
-        p_date, term = privacies[i].split()
-        py, pm, pd = map(int, p_date.split('.'))
+        privacie, term = privacies[i].split(' ')
+        nd = convert(privacie)
         
-        for j in range(dic[term]):
-            pd += 28
-            
-            if pd > 28:
-                pd -= 28
-                pm += 1
-            
-            if pm > 12:
-                pm -= 12
-                py += 1
-        if py < y or (py == y and pm < m) or (py == y and pm == m and pd <= d):
+        if nd + term_dic[term] <= cur:
             answer.append(i+1)
-        
-        print(py, pm, pd)
-        
+            
     return answer
+
+
