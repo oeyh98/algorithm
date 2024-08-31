@@ -1,49 +1,37 @@
-from itertools import combinations
 from collections import defaultdict
+from itertools import combinations
+from bisect import bisect_left
 
-def bin_search(target, scores, start, end):
-    while start <= end:
-        mid = (start + end) // 2
-        if scores[mid] >= target:
-            end = mid - 1
-        else:
-            start = mid + 1
-    return start
-
-def solution(information, queries):
+def solution(info, query):
     answer = []
-    dic = defaultdict(list)
+    info_dic = defaultdict(list)
     
-    for info in information:
-        info = info.split()
-        condition = info[:-1]
-        score = int(info[-1])
+    for i in range(len(info)):
+        temp = info[i].split(" ")
+        condition, score = temp[:-1], int(temp[-1])
         
-        for i in range(5):
-            case = list(combinations(range(4), i))
-            
-            for c in case:
+        for j in range(5):
+            for k in combinations(range(4), j):
                 temp = condition.copy()
-                for idx in c:
+                
+                for idx in k:
                     temp[idx] = '-'
-                key = ' '.join(temp)
-                dic[key].append(score)
-        
-        
-    for values in dic.values():
+                
+                info_dic["".join(temp)].append(score)
+    
+    for values in info_dic.values():
         values.sort()
         
-    for query in queries:
-        query = query.replace(' and', '')
-        query = query.split()
+    for q in query:
+        q = q.replace(" and ", "").split(" ")
+        target, target_score = q[0], int(q[1])
         
-        target_condition = ' '.join(query[:-1])
-        target_score = int(query[-1])
+        cnt = 0
+        if target in info_dic:
+            temp = info_dic[target]
+            idx = bisect_left(temp, target_score)
+            cnt += (len(temp) - idx)
         
-        scores = dic[target_condition]
-        scores_len = len(scores)
-        cnt = bin_search(target_score, scores, 0, scores_len-1)
-        result = scores_len - cnt
-        answer.append(result)    
-                    
+        answer.append(cnt)
+        
     return answer
