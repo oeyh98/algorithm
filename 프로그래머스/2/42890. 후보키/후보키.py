@@ -1,30 +1,31 @@
 from itertools import combinations
-def solution(relation):
-    answer = 0
-    col = len(relation[0])
-    row = len(relation)
-    
-    combis = []
-    # 조합 생성
-    for i in range(1, col + 1):
-        combis.extend(combinations(range(col), i))
 
-    # 유일성  
-    unique = []
-    answer = 0
+def solution(relation):
+    row = len(relation)
+    col = len(relation[0])
     
-    for comb in combis:
-        tmp = [tuple(item[key] for key in comb) for item in relation]
-        if len(set(tmp)) == row :
+    comb = []
+    
+    for i in range(1, col + 1):
+        for c in combinations(range(col), i):
+            comb.append(c)
+    
+    unique = []
+    for c in comb:
+        temp = set()
+        
+        for r in relation:
+            temp.add(tuple(r[idx] for idx in c))
+            
+        if len(temp) == row:
             flag = True
             
             for u in unique:
-                if set(u).issubset(set(comb)):
+                if set(u).issubset(set(c)):
                     flag = False
                     break
-                
-            if flag :
-                unique.append(comb)
             
-    
+            if flag:
+                unique.append(c)
+
     return len(unique)
