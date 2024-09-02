@@ -1,22 +1,24 @@
-import heapq
+from heapq import heappush, heappop
 def solution(operations):
-    q = []
-    rq = []
-    for op in operations:
-        command, number = op.split()
-        number = int(number)
-        if command == 'I':
-            heapq.heappush(q, number)
-            heapq.heappush(rq, -number)
-        elif command == 'D':
-            if number == 1 and q:
-                popped = heapq.heappop(rq)
-                q.remove(-popped)
-            elif number == -1 and q:
-                popped = heapq.heappop(q)
-                rq.remove(-popped)
-
-    if not q:
-        return [0,0]
+    hq = []
+    rhq = []
+    
+    for operation in operations:
+        cmd, data = operation.split(" ")
+        data = int(data)
+        
+        if cmd == 'I':
+            heappush(hq, data)
+            heappush(rhq, -data)
+        elif cmd == "D":
+            if data == -1 and hq:
+                temp = heappop(hq)
+                rhq.remove(-temp)
+            elif data == 1 and hq:
+                temp = heappop(rhq)
+                hq.remove(-temp)
+         
+    if hq:
+        return [max(hq), min(hq)]
     else:
-        return [max(q), min(q)]
+        return [0, 0]
