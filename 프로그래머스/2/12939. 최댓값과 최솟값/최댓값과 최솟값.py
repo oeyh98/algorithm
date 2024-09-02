@@ -1,6 +1,4 @@
 def solution(s):
-    answer = ''
-    s = list(map(int, s.split(' ')))
-    
-    answer = str(min(s)) + ' ' + str(max(s))
+    ss = list(map(int, s.split(" ")))
+    answer = str(min(ss)) + " " + str(max(ss))
     return answer
