@@ -1,23 +1,22 @@
-class Solution {
+class Solution {    
     public int solution(String[] babbling) {
         int answer = 0;
-        String[] as = {"aya", "ye", "woo", "ma"};
-        String[] bs = {"ayaaya", "yeye", "woowoo", "mama"};
+        String[] canBabble = {"aya", "ye", "woo", "ma"};
+        String[] doubleBabble = {"ayaaya", "yeye", "woowoo", "mama"};
         
-        for(String babble : babbling){
-            for(String s:bs){
-                babble = babble.replaceAll(s, "0");   
+        for(int i = 0; i < babbling.length; i++){
+            for(String db: doubleBabble){
+                babbling[i] = babbling[i].replace(db, "*");
             }
             
-            for(String s:as){
-                babble = babble.replaceAll(s, "1");
+            for(String cb: canBabble){
+                babbling[i] = babbling[i].replace(cb, " ");
             }
+            babbling[i] = babbling[i].replace(" ", "");
             
-            if(babble.replaceAll("1", "").length() == 0){
-                answer++;
-            }
+            if(babbling[i].length() == 0) answer++;
         }
-        
+            
         return answer;
     }
 }
