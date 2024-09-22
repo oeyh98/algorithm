@@ -1,18 +1,16 @@
 def solution(genres, plays):
-    answer = []    
-    genres_count = {}
-    plays_count = {}
+    answer = []
+    genres_dic = {genre:0 for genre in genres}
+    plays_dic = {genre:[] for genre in genres}
     
-    for i, genre in enumerate(genres):
-        genres_count[genres[i]] = genres_count.get(genres[i], 0) + plays[i]
-        plays_count[genres[i]] = plays_count.get(genres[i], []) + [(plays[i], i)]
+    for i in range(len(genres)):
+        genres_dic[genres[i]] += plays[i]
+        plays_dic[genres[i]] += [(i, plays[i])]
         
-    sorted_genres = sorted(genres_count.items(), key=lambda x: x[1], reverse=True)
+    sorted_dic = sorted(genres_dic.items(), key = lambda x:x[1], reverse = True)
+
+    for genre, _ in sorted_dic:
+        sorted_play = sorted(plays_dic[genre], key = lambda x: (-x[1], x[0])) 
+        answer += [idx for idx, _ in sorted_play[:2]]
         
-    
-    
-    for (genre, total_play) in sorted_genres:
-        plays_count[genre] = sorted(plays_count[genre], key=lambda x: (-x[0], x[1]))
-        answer += [idx for (play, idx) in plays_count[genre][:2]]
-    
     return answer
