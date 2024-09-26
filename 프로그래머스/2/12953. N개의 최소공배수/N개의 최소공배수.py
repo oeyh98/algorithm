@@ -1,19 +1,15 @@
-def cal(temp, arr):
-    for i in arr:
-        if temp % i != 0:
-            return False
-    return True
-                
-                
+def lcm(a, b):
+    return a * b / gcd(a, b)
+def gcd(a, b):
+    if a%b == 0:
+        return b
+    else:
+        return gcd(b, a%b)
+        
 def solution(arr):
-    arr.sort()
+    answer = arr[0]
     
-    max_value = 1
-    
-    for i in arr:
-        max_value *= i
-    
-    for temp in range(arr[-1], max_value + 1, arr[-1]):
-        if cal(temp, arr):
-            return temp
-
+    for i in range(1, len(arr)):
+        answer = lcm(answer, arr[i])
+        
+    return answer
